@@ -41,6 +41,8 @@ mvspeed = 0;
 
 dir = "up";
 
+mutton_friction = 1;
+
 randomize();
 if (random(1) &gt;= .5)
 {
@@ -76,7 +78,7 @@ dir_chk = round(random_range(0,1));
 
 if (dir_chk)
 {
-    mhspeed = sign(random_range(-1,1)) * floor(random_range(5,7));
+    mhspeed = sign(random_range(-1,1)) * floor(random_range(10,15)) / mutton_friction;
     mvspeed = 0;
     
     if (mhspeed &gt; 0)
@@ -86,7 +88,7 @@ if (dir_chk)
 }
 else
 {
-    mvspeed = sign(random_range(-1,1)) * floor(random_range(5,7));
+    mvspeed = sign(random_range(-1,1)) * floor(random_range(10,15)) / mutton_friction;
     mhspeed = 0;
     
     if (mvspeed &gt; 0)
@@ -95,7 +97,7 @@ else
         dir = "up";
 }
 
-alarm[2] = floor(random_range(1,2)) * room_speed / 5;
+alarm[2] = floor(random_range(1,2)) * room_speed / 3;
 </string>
           </argument>
         </arguments>
@@ -267,6 +269,11 @@ if (my_health &lt;= 0)
     Slenderfriend.ride_along = false;
 }
 
+if (mutton_friction &gt;= 3)
+{
+    instance_destroy();
+    Slenderfriend.ride_along = false;
+}
 </string>
           </argument>
         </arguments>
@@ -315,7 +322,7 @@ draw_text(x, y+40, string(my_health));
 
 if (is_mutton_bustin)
 {
-    draw_text(x,y-50,string(mutton_timer) + " Mutton bustin!");
+    draw_text(x,y-50,string(mutton_timer) + " " + string(mutton_friction));
 }
 
 image_alpha = 1 - (2 * (5 - my_health)/10);

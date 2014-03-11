@@ -207,23 +207,35 @@ if (ride_along == true)
         case "up":
         x = near_friend.x;
         y = near_friend.y + 50;
+        if (keyboard_check(ord("S")))
+            near_friend.mutton_friction += 1/room_speed;
         break;
         
         case "down":
         x = near_friend.x;
         y = near_friend.y - 50;
+        if (keyboard_check(ord("W")))
+            near_friend.mutton_friction += 1/room_speed;
         break;
         
         case "left":
         x = near_friend.x + 50;
         y = near_friend.y;
+        if (keyboard_check(ord("D")))
+            near_friend.mutton_friction += 1/room_speed;
         break;
         
         case "right":
         x = near_friend.x - 50;
         y = near_friend.y;
+        if (keyboard_check(ord("A")))
+            near_friend.mutton_friction += 1/room_speed;
         break;
     }
+
+    
+    
+    
 }
         
 
