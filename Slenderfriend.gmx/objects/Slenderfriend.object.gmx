@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -232,10 +232,12 @@ if (ride_along == true)
             near_friend.mutton_friction += 1/room_speed;
         break;
     }
+}
 
-    
-    
-    
+if (x &lt; 0)
+{
+     show_debug_message("going to next room");
+     room_goto(next_room);
 }
         
 

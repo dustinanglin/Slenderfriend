@@ -26,9 +26,11 @@
     <object>objects\Slenderfriend</object>
     <object>objects\Accell</object>
     <object>objects\score_keeper</object>
+    <object>objects\warp_handler</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room2</room>
+    <room>rooms\start_room</room>
+    <room>rooms\next_room</room>
     <room>rooms\room3</room>
     <room>rooms\room1</room>
     <room>rooms\room0</room>
