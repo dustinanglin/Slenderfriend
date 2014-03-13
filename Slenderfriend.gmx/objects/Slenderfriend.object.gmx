@@ -130,6 +130,9 @@ should_reset = false;
           <argument>
             <kind>1</kind>
             <string>
+if (!global.gameover)
+{
+
 moving = true;
 
 if (keyboard_check(ord("W")) &amp;&amp; keyboard_check(ord("D")))
@@ -395,7 +398,7 @@ if (should_reset)
     tile_drawer.draw = true;
 }
         
-
+}
 </string>
           </argument>
         </arguments>

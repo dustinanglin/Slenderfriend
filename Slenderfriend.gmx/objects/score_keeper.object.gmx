@@ -31,7 +31,7 @@ esteem_degrade = .5;
 friend_add = 1;
 friend_count = 0;
 pause = false;
-game_over = false;
+global.gameover = false;
 got_all_friends = false;
 
 alarm[0] = room_speed * 1;
@@ -97,7 +97,7 @@ else
 self_esteem -= esteem_degrade;
 }
 
-alarm[0] = room_speed * .1;
+alarm[0] = room_speed * 1;
 </string>
           </argument>
         </arguments>
@@ -122,7 +122,7 @@ alarm[0] = room_speed * .1;
             <kind>1</kind>
             <string>if (self_esteem &lt;= 0)
 {
-    game_over = true;
+    global.gameover = true;
     pause = true;
 }
 
@@ -133,6 +133,11 @@ if (keyboard_check_pressed(ord("C")))
 }
 
 health_height = (max_self_esteem - self_esteem) * health_increment;
+
+if (global.gameover &amp;&amp; keyboard_check_pressed(ord("R")))
+{
+    game_restart();
+}
 </string>
           </argument>
         </arguments>
@@ -165,6 +170,7 @@ draw_text(20, 100, string(room));
 draw_text(20, 120, string(room_persistent));
 
 
+
 draw_sprite(health_bar, 0, 1024 - 50 ,768/2);
 
 if (self_esteem/max_self_esteem &gt; .64)
@@ -188,7 +194,25 @@ if (blink)
     draw_sprite(danger_health,0,1024-50, 768 - 134);
 }
 
+
+
 draw_sprite(health_select, 0, 1024 - 50 - 25, 30 + health_height);
+draw_sprite_ext(health_header,0,1024 - 50, 35, .2, .2,0,-1,1);
+
+if (global.gameover)
+{
+    draw_set_color(c_black);
+    draw_set_alpha(.6);
+    draw_rectangle(0,0,1024,768,false);
+    draw_set_alpha(1);
+    draw_sprite(game_over,0,1023/2, 300);
+    
+    draw_set_color(c_white);
+    draw_set_font(default_font);
+    draw_set_halign(fa_center);
+    draw_text(1024/2, 768-300, "You ran out of self esteem :(" + "#Slenderman's need for friendship can't be quenched" + "#But you earned a total of " + string(friend_count) + " friends!" + "  Way to go!" + "#" + "#Press R to Restart");
+    
+}
 </string>
           </argument>
         </arguments>
