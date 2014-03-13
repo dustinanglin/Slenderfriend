@@ -42,6 +42,14 @@ health_increment = 700 / max_self_esteem;
 health_height = 0;
 
 blink = false;
+
+//starting global types
+global.friend_type[0] = "friend";
+global.friend_type[1] = "mutton";
+global.friend_type[2] = "clingy";
+
+//incrementable array range
+global.friend_range = 3;
 </string>
           </argument>
         </arguments>

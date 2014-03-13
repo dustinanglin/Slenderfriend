@@ -43,6 +43,8 @@ prev_room = "";
 
 pers = true;
 should_reset = false;
+
+delta = 0;
 </string>
           </argument>
         </arguments>
@@ -96,13 +98,13 @@ should_reset = false;
     alarm[0] = room_speed/6;
     if (lumber)
     {
-        slender_speed = 2;
+        slender_speed = 2 + delta;
         image_speed = .4;
         lumber = false;
     }
     else
     {
-        slender_speed = 5;
+        slender_speed = 5 + delta;
         image_speed = .6;
         lumber = true;
     }
@@ -327,15 +329,15 @@ else
 
 if (show_attack &amp;&amp; keyboard_check_pressed(ord("J")))
 {
-    near_friend.is_clingy = true;
+    /*near_friend.is_clingy = true;
     clingy_friend = near_friend;
     clingy_attack = true;
-    show_debug_message("Clingy friend attack!");
+    show_debug_message("Clingy friend attack!");*/
 }
 
 if (show_attack &amp;&amp; keyboard_check_pressed(ord("P")))
 {
-    near_friend.my_health -= slender_punch / room_speed;
+    near_friend.is_punched = true;
     if (clingy_attack)
     {
         if(clingy_friend != near_friend)
@@ -348,10 +350,7 @@ if (show_attack &amp;&amp; keyboard_check_pressed(ord("P")))
 
 if (show_attack &amp;&amp; keyboard_check_pressed(ord("M")))
 {
-    near_friend.is_mutton_bustin = true;
-    near_friend.mutton_timer = 10;
-    show_debug_message("Bust some mutton!");
-    ride_along = true;
+
 }
 
 
@@ -398,6 +397,12 @@ if (should_reset)
     tile_drawer.draw = true;
 }
         
+
+if(keyboard_check_pressed(ord("U")))
+{
+    delta += 1;
+}
+
 }
 </string>
           </argument>

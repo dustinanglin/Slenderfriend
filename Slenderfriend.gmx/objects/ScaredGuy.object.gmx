@@ -39,6 +39,7 @@ is_clingy = false;
 clingy_phrase = 0;
 is_betrayed = false;
 betrayed_phrase = 0;
+is_punched = false;
 
 mhspeed = 0;
 mvspeed = 0;
@@ -55,6 +56,7 @@ if (random(1) &gt;= .5)
 chill_time = random(7);
 alarm[1] = room_speed * chill_time;
 
+
 clingy_talk[0] = "Let's be friends forever and ever!";
 clingy_talk[1] = "Why don't you have eyes? Or a nose? Or a mouth? Or eyes again?";
 clingy_talk[2] = "Hey, can I borrow some money? Like, $1000?";
@@ -66,9 +68,7 @@ betrayed_talk [1] = "That's cool... most of my friends have faces anyways.";
 betrayed_talk [2] = "Good bye forever...";
 
 
-friend_type[0] = "friend";
-friend_type[1] = "mutton";
-friend_type[2] = "clingy";
+my_type = global.friend_type[floor(random_range(0,global.friend_range))];
 
 friend_max = 4;
 
@@ -269,6 +269,30 @@ if (draw_capture &amp;&amp; keyboard_check(ord("R")))
 }
 }
 
+if (is_punched)
+{
+    is_punched = false;
+    
+    if (my_type = global.friend_type[0])
+    {
+        my_health -= Slenderfriend.slender_punch / room_speed;
+    }
+    else if (my_type = global.friend_type[1])
+    {
+        is_mutton_bustin = true;
+        mutton_timer = 10;
+        show_debug_message("Bust some mutton!");
+        Slenderfriend.ride_along = true;
+    }
+    else if (my_type = global.friend_type[2])
+    {
+        is_clingy = true;
+        Slenderfriend.clingy_friend = instance_id;
+        Slenderfriend.clingy_attack = true;
+        show_debug_message("Clingy friend attack!");            
+    }
+}
+
 
 if (is_mutton_bustin)
 {
@@ -395,12 +419,12 @@ else if (is_freaked_out)
 else if (chill)
 {
     draw_set_color(tile_drawer.sprite_color);
-    draw_text(x, y-25, "chill");
+    draw_text(x, y-25, my_type);
     }
 else if (!chill)
 {
     draw_set_color(tile_drawer.sprite_color);
-    draw_text(x, y-25, "not chill");
+    draw_text(x, y-25, "walking");
 }
 
 draw_text(x, y+40, string(my_health));
