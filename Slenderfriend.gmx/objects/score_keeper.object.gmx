@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>self_esteem = 100;
+            <string>max_self_esteem = 100;
+self_esteem = 100;
 esteem_degrade = .5;
 friend_add = 1;
 friend_count = 0;
@@ -35,6 +36,40 @@ got_all_friends = false;
 
 alarm[0] = room_speed * 1;
 
+difficulty = 1;
+//increment is max height of health bar / max self esteem
+health_increment = 700 / max_self_esteem;
+health_height = 0;
+
+blink = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (blink)
+{
+    blink = false;
+}
+else
+    blink = true;
 </string>
           </argument>
         </arguments>
@@ -62,7 +97,7 @@ alarm[0] = room_speed * 1;
 self_esteem -= esteem_degrade;
 }
 
-alarm[0] = room_speed * 1;
+alarm[0] = room_speed * .1;
 </string>
           </argument>
         </arguments>
@@ -88,12 +123,16 @@ alarm[0] = room_speed * 1;
             <string>if (self_esteem &lt;= 0)
 {
     game_over = true;
-}
-
-if (instance_number(ScaredGuy) &lt;= 0)
-{
     pause = true;
 }
+
+
+if (keyboard_check_pressed(ord("C")))
+{
+    difficulty += 1;
+}
+
+health_height = (max_self_esteem - self_esteem) * health_increment;
 </string>
           </argument>
         </arguments>
@@ -116,9 +155,40 @@ if (instance_number(ScaredGuy) &lt;= 0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_color(c_black);
+            <string>
+draw_set_color(c_white);
 draw_text(20, 20, "Self Esteem: " + string(self_esteem));
 draw_text(20, 40, "Friends: " + string(friend_count));
+draw_text(20, 60, string(logn(2,difficulty)));
+draw_text(20, 80, string(difficulty));
+draw_text(20, 100, string(room));
+draw_text(20, 120, string(room_persistent));
+
+
+draw_sprite(health_bar, 0, 1024 - 50 ,768/2);
+
+if (self_esteem/max_self_esteem &gt; .64)
+{
+    //draw good health
+    draw_sprite(happy_health,0,1024-50, 768 - 614);
+}
+else if (self_esteem/max_self_esteem &gt; .29)
+{
+    //draw ok health
+    draw_sprite(ok_health,0,1024-50, 768 - 363);
+}
+else if (alarm[1] &lt;= 0) 
+{
+    //blink bad health
+    alarm[1] = .5 * room_speed;      
+}
+
+if (blink)
+{
+    draw_sprite(danger_health,0,1024-50, 768 - 134);
+}
+
+draw_sprite(health_select, 0, 1024 - 50 - 25, 30 + health_height);
 </string>
           </argument>
         </arguments>
@@ -136,5 +206,8 @@ draw_text(20, 40, "Friends: " + string(friend_count));
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
-  <PhysicsShapePoints/>
+  <PhysicsShapePoints>
+    <point>32,32</point>
+    <point>32,32</point>
+  </PhysicsShapePoints>
 </object>

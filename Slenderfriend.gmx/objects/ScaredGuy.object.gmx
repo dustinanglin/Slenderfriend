@@ -35,6 +35,10 @@ at_point = true;
 chill = false;
 draw_capture = false;
 my_health = 5;
+is_clingy = false;
+clingy_phrase = 0;
+is_betrayed = false;
+betrayed_phrase = 0;
 
 mhspeed = 0;
 mvspeed = 0;
@@ -51,6 +55,55 @@ if (random(1) &gt;= .5)
 chill_time = random(7);
 alarm[1] = room_speed * chill_time;
 
+clingy_talk[0] = "Let's be friends forever and ever!";
+clingy_talk[1] = "Why don't you have eyes? Or a nose? Or a mouth? Or eyes again?";
+clingy_talk[2] = "Hey, can I borrow some money? Like, $1000?";
+clingy_talk[3] = "Yay this is fun! Are you havin fun? I'm having fun! FUUUNNNN!";
+clingy_talk[4] = "BEST FRIEND! BEST FRIEND! BEST FRIEND!";
+
+betrayed_talk [0] = "Oh, you don't want to be friends?";
+betrayed_talk [1] = "That's cool... most of my friends have faces anyways.";
+betrayed_talk [2] = "Good bye forever...";
+
+
+friend_type[0] = "friend";
+friend_type[1] = "mutton";
+friend_type[2] = "clingy";
+
+friend_max = 4;
+
+friend_speed = 2 + logn(10,score_keeper.difficulty);
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>clingy_phrase = floor(random_range(0,4.9));
+
+if (is_betrayed &amp;&amp; betrayed_phrase &lt; 3)
+{
+    betrayed_phrase += 1;
+}
 </string>
           </argument>
         </arguments>
@@ -128,7 +181,6 @@ else
     chill = false;
     
 
-show_debug_message("Alarm");
 </string>
           </argument>
         </arguments>
@@ -151,7 +203,7 @@ show_debug_message("Alarm");
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!is_mutton_bustin)
+            <string>if(!is_mutton_bustin &amp;&amp; !is_clingy)
 {
 
 //get scared
@@ -173,7 +225,7 @@ if (is_freaked_out)
 {
     draw_set_color(c_black);
     draw_text(x+10, y+10, "AHHHHHHHH!!!!");
-    move_towards_point(Slenderfriend.x, Slenderfriend.y,-2);
+    move_towards_point(Slenderfriend.x, Slenderfriend.y,-1 * friend_speed);
     moving = false;
 }
 
@@ -242,6 +294,29 @@ if (is_mutton_bustin)
     mutton_timer -= 1 / room_speed;
 }
 
+if (is_clingy &amp;&amp; !is_betrayed)
+{
+    cling_x = Slenderfriend.x;
+    cling_y = Slenderfriend.y;
+    
+    if (distance_to_object(Slenderfriend) &gt; 20)
+        move_towards_point(cling_x, cling_y, 3);
+        
+    if (alarm[3] &lt; 0)
+        alarm[3] = 3 * room_speed;
+    
+}
+
+if (is_betrayed)
+{
+  x += sign(x - room_width/2) * 4 / room_speed;
+  
+  if (x &gt; room_width || x &lt; 0)
+  {
+    instance_destroy();
+  }
+}
+
 
 //stay in bounds
 if (x &gt;= room_width - sprite_width)
@@ -274,6 +349,16 @@ if (mutton_friction &gt;= 3)
     instance_destroy();
     Slenderfriend.ride_along = false;
 }
+
+if (keyboard_check_pressed(ord("V")))
+{
+    friend_max += 1;
+}
+
+friend_speed = 2 + logn(10,score_keeper.difficulty);
+if (friend_speed &gt;= friend_max)
+    friend_speed = friend_max - .1;
+
 </string>
           </argument>
         </arguments>
@@ -296,25 +381,25 @@ if (mutton_friction &gt;= 3)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>depth = -y;
 if(draw_capture)
 {
-    draw_set_color(c_black);
+    draw_set_color(tile_drawer.sprite_color);
     draw_text(x, y-25, "Press R to capture");
 }
 else if (is_freaked_out)
 {
-    draw_set_color(c_black);
+    draw_set_color(tile_drawer.sprite_color);
     draw_text(x, y-25, "AHHHHHHHH!!!!");
 }
 else if (chill)
 {
-    draw_set_color(c_black);
+    draw_set_color(tile_drawer.sprite_color);
     draw_text(x, y-25, "chill");
     }
 else if (!chill)
 {
-    draw_set_color(c_black);
+    draw_set_color(tile_drawer.sprite_color);
     draw_text(x, y-25, "not chill");
 }
 
@@ -324,6 +409,19 @@ if (is_mutton_bustin)
 {
     draw_text(x,y-50,string(mutton_timer) + " " + string(mutton_friction));
 }
+
+if (is_clingy &amp;&amp; !is_betrayed)
+{
+    draw_text(x-16, y-50, clingy_talk[clingy_phrase]);
+}
+
+if (is_betrayed)
+{
+    draw_text(x-16, y-50, betrayed_talk[betrayed_phrase]);
+}
+
+
+
 
 image_alpha = 1 - (2 * (5 - my_health)/10);
 

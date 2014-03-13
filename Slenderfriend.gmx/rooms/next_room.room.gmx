@@ -7,21 +7,29 @@
   <hsnap>32</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code>randomize();
+  <code>show_debug_message("Creating Next Room");
+
+randomize();
 
 //create a random sized room between 400 x 400 and 2000 x 2000
 r_height = floor(random_range(400,2000));
 r_width = floor(random_range(400,2000));
 
 
-instance_create(0,0,score_keeper);
-
 friends = floor(random_range(10,40));
 rx = 0;
 ry = 0;
+
+instance_create(0,0,tile_drawer);
+
+color[0] = c_blue;
+color[1] = c_fuchsia;
+color[2] = c_green;
+
+tile_drawer.sprite_color = color[floor(random_range(0,3))];
 
 do
 {
@@ -35,7 +43,9 @@ do
     friends -= 1;
     instance_create (rx, ry, ScaredGuy);
 }
-until (friends == 0);</code>
+until (friends == 0);
+
+room_persistent = true;</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <makerSettings>
@@ -74,7 +84,9 @@ until (friends == 0);</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
-  <instances/>
+  <instances>
+    <instance objName="warp_handler" x="96" y="64" name="inst_50CB6EF3" locked="0" code="target_room = start_room;&#xA;visible = true;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+  </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
   <PhysicsWorldTop>0</PhysicsWorldTop>
