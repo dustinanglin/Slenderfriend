@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>slender_speed = 2;
+set_clingy_friend = false;
 alarm[0] = room_speed/6;
 moving = false;
 lumber = false;
@@ -45,6 +46,8 @@ pers = true;
 should_reset = false;
 
 delta = 0;
+
+friction_value = 0;
 </string>
           </argument>
         </arguments>
@@ -131,7 +134,8 @@ delta = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>image_yscale = 1;
+
 if (!global.gameover)
 {
 
@@ -312,8 +316,18 @@ else
 
 if (!ride_along)
 {
+    if (set_clingy_friend)
+    {
+        set_clingy_friend = false;
+        clingy_friend = instance_nearest(x,y,ScaredGuy);
+    }
+
     if (clingy_attack &amp;&amp; (instance_nearest(x,y,ScaredGuy) != clingy_friend))
+    {
         near_friend = instance_nearest(x,y,ScaredGuy);
+        show_debug_message("Near friend: " + string(near_friend));
+        show_debug_message("Clingy friend: " + string(clingy_friend));
+    }
     
     if (!clingy_attack)
          near_friend = instance_nearest(x,y,ScaredGuy);
@@ -335,15 +349,18 @@ if (show_attack &amp;&amp; keyboard_check_pressed(ord("J")))
     show_debug_message("Clingy friend attack!");*/
 }
 
-if (show_attack &amp;&amp; keyboard_check_pressed(ord("P")))
+if (show_attack &amp;&amp; keyboard_check_pressed(ord("J")))
 {
     near_friend.is_punched = true;
+    
     if (clingy_attack)
     {
         if(clingy_friend != near_friend)
         {
             clingy_friend.is_betrayed = true;
-            clingy_attak = false;
+            score_keeper.increment = true;
+            score_keeper.amount = global.friend_value[2];
+            clingy_attack = false;
         }
     }
 }
@@ -362,6 +379,8 @@ if (ride_along == true)
         case "up":
         x = near_friend.x;
         y = near_friend.y + 50;
+        image_yscale = 1;
+        sprite_index = slender_drag_v;
         if (keyboard_check(ord("S")))
             near_friend.mutton_friction += 1/room_speed;
         break;
@@ -369,20 +388,26 @@ if (ride_along == true)
         case "down":
         x = near_friend.x;
         y = near_friend.y - 50;
+        image_yscale = -1;
+        sprite_index = slender_drag_v;
         if (keyboard_check(ord("W")))
             near_friend.mutton_friction += 1/room_speed;
         break;
         
         case "left":
         x = near_friend.x + 50;
-        y = near_friend.y;
+        y = near_friend.y + 16;
+        image_xscale = 1;
+        sprite_index = slender_drag;
         if (keyboard_check(ord("D")))
             near_friend.mutton_friction += 1/room_speed;
         break;
         
         case "right":
         x = near_friend.x - 50;
-        y = near_friend.y;
+        y = near_friend.y + 16;
+        sprite_index = slender_drag;
+        image_xscale = -1;
         if (keyboard_check(ord("A")))
             near_friend.mutton_friction += 1/room_speed;
         break;
@@ -428,17 +453,34 @@ if(keyboard_check_pressed(ord("U")))
             <kind>1</kind>
             <string>depth = -y;
 
-if (show_attack)
-{
-draw_set_color(c_black);
-draw_text(x, y - 20, "Attack!");
-}
 
 //draw_set_blend_mode(bm_add);
 draw_sprite_ext(light,0,x,y,1.5,1.5,0,-1,.25);
 
 draw_set_blend_mode(bm_normal);
 draw_self();
+
+if(ride_along)
+{
+   switch(near_friend.dir)
+    {
+        case "up":
+        draw_sprite_ext(red_arrow,0,x,y+120,.5,.5,0,-1,1);
+        break;
+        
+        case "down":
+        draw_sprite_ext(red_arrow,0,x,y-120,.5,-.5,0,-1,1);
+        break;
+        
+        case "left":
+        draw_sprite_ext(red_arrow,0,x+120,y,.5,.5,90,-1,1);
+        break;
+        
+        case "right":
+        draw_sprite_ext(red_arrow,0,x-120,y,.5,.5,270,-1,1);
+        break;
+    }
+}
 </string>
           </argument>
         </arguments>

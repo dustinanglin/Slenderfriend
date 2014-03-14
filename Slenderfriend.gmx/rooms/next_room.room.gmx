@@ -19,7 +19,7 @@ r_height = floor(random_range(400,2000));
 r_width = floor(random_range(400,2000));
 
 
-friends = floor(random_range(10,40));
+friends = floor(random_range(10,15));
 rx = 0;
 ry = 0;
 
@@ -41,7 +41,22 @@ do
     until (place_free(rx,ry));
     
     friends -= 1;
-    instance_create (rx, ry, ScaredGuy);
+    
+    which_friend = floor(random_range(0,global.friend_range));
+    switch(which_friend)
+    {
+        case 0:
+        instance_create (rx, ry, Normal);
+        break;
+        
+        case 1:
+        instance_create (rx, ry, Mutton);
+        break;
+        
+        case 2:
+        instance_create (rx, ry, Clingy);
+        break;
+    }
 }
 until (friends == 0);
 
@@ -75,7 +90,7 @@ room_persistent = true;</code>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
   </backgrounds>
   <views>
-    <view visible="-1" objName="Slenderfriend" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="128" vborder="128" hspeed="-1" vspeed="-1"/>
+    <view visible="-1" objName="Slenderfriend" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="400" vborder="300" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
@@ -85,7 +100,7 @@ room_persistent = true;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="warp_handler" x="96" y="64" name="inst_50CB6EF3" locked="0" code="target_room = start_room;&#xA;visible = true;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="warp_handler" x="96" y="64" name="inst_50CB6EF3" locked="0" code="target_room = start_room;&#xA;visible = false;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

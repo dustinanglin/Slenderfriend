@@ -7,63 +7,10 @@
   <hsnap>32</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
-  <persistent>0</persistent>
-  <colour>12632256</colour>
+  <persistent>-1</persistent>
+  <colour>15921906</colour>
   <showcolour>-1</showcolour>
-  <code>show_debug_message("Creating Start Room");
-
-randomize();
-
-//create a random sized room between 400 x 400 and 2000 x 2000
-r_height = floor(random_range(400,2000));
-r_width = floor(random_range(400,2000));
-
-friends = floor(random_range(10,15));
-rx = 0;
-ry = 0;
-
-if (!instance_exists(score_keeper))
-    instance_create(0,0,score_keeper);
-    
-instance_create(0,0,tile_drawer);
-
-show_debug_message(string(instance_number(score_keeper)));
-
-color[0] = c_blue;
-color[1] = c_fuchsia;
-color[2] = c_green;
-
-tile_drawer.sprite_color = color[floor(random_range(0,3))];
-
-do
-{
-    do
-    {
-        rx = random(room_width);
-        ry = random(room_height);
-    }
-    until (place_free(rx,ry));
-    
-    friends -= 1;
-    which_friend = 0;//floor(random_range(0,global.friend_range));
-    switch(which_friend)
-    {
-        case 0:
-        instance_create (rx, ry, Normal);
-        break;
-        
-        case 1:
-        instance_create (rx, ry, Mutton);
-        break;
-        
-        case 2:
-        instance_create (rx, ry, Clingy);
-        break;
-    }
-}
-until (friends == 0);
-
-room_persistent = true;</code>
+  <code></code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <makerSettings>
@@ -93,7 +40,7 @@ room_persistent = true;</code>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
   </backgrounds>
   <views>
-    <view visible="-1" objName="Slenderfriend" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="400" vborder="300" hspeed="-1" vspeed="-1"/>
+    <view visible="-1" objName="friend_zone_sign" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="400" vborder="300" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
@@ -103,8 +50,7 @@ room_persistent = true;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="Slenderfriend" x="768" y="480" name="inst_96BE41AA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="warp_handler" x="128" y="128" name="inst_59BE34F0" locked="0" code="target_room = next_room;&#xA;visible = false;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="friend_zone_sign" x="960" y="224" name="inst_8BF272F4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

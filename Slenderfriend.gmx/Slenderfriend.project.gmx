@@ -13,7 +13,7 @@
     <sprite>sprites\Walk_E</sprite>
     <sprite>sprites\Idle_W</sprite>
     <sprite>sprites\Idle_E</sprite>
-    <sprite>sprites\sprite7</sprite>
+    <sprite>sprites\normal_sprite</sprite>
     <sprite>sprites\sprite8</sprite>
     <sprite>sprites\Slender_bound</sprite>
     <sprite>sprites\Slender_idle</sprite>
@@ -29,25 +29,42 @@
     <sprite>sprites\health_header</sprite>
     <sprite>sprites\game_over</sprite>
     <sprite>sprites\tree</sprite>
+    <sprite>sprites\clingy_sprite</sprite>
+    <sprite>sprites\mutton_sprite</sprite>
+    <sprite>sprites\j_key</sprite>
+    <sprite>sprites\green_arrow</sprite>
+    <sprite>sprites\slender_drag</sprite>
+    <sprite>sprites\slender_drag_v</sprite>
+    <sprite>sprites\red_arrow</sprite>
+    <sprite>sprites\wrangle_bar</sprite>
+    <sprite>sprites\friendzone_sign</sprite>
+    <sprite>sprites\friendzone_out</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <fonts name="fonts">
     <font>fonts\default_font</font>
+    <font>fonts\big_font</font>
   </fonts>
   <objects name="objects">
     <object>objects\object0</object>
     <object>objects\object1</object>
     <object>objects\object2</object>
     <object>objects\ScaredGuy</object>
+    <object>objects\ScaredGuy_backup</object>
+    <object>objects\Clingy</object>
+    <object>objects\Mutton</object>
+    <object>objects\Normal</object>
     <object>objects\Slenderfriend</object>
     <object>objects\Accell</object>
     <object>objects\score_keeper</object>
     <object>objects\warp_handler</object>
     <object>objects\tile_drawer</object>
     <object>objects\obj_tree</object>
+    <object>objects\friend_zone_sign</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\friendzone</room>
     <room>rooms\start_room</room>
     <room>rooms\next_room</room>
     <room>rooms\room3</room>

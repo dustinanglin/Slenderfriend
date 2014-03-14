@@ -26,15 +26,33 @@
           <argument>
             <kind>1</kind>
             <string>max_self_esteem = 100;
+clingy_help = "";
 self_esteem = 100;
-esteem_degrade = .5;
+esteem_degrade = 1;
 friend_add = 1;
 friend_count = 0;
 pause = false;
 global.gameover = false;
 got_all_friends = false;
+increment = false;
+amount = 0;
+inc_x = 0;
+inc_y = 0;
+dec_x = 0;
+dec_y = 0;
+draw_inc = 0;
+inc_alpha = 1;
+draw_dec = 0;
+dec_alpha = 1;
+dx = 0;
+dy = 0;
+friction_value = 0;
 
-alarm[0] = room_speed * 1;
+
+decrement = false;
+decrement_amount = 0;
+
+alarm[0] = room_speed * 2;
 
 difficulty = 1;
 //increment is max height of health bar / max self esteem
@@ -48,8 +66,113 @@ global.friend_type[0] = "friend";
 global.friend_type[1] = "mutton";
 global.friend_type[2] = "clingy";
 
+//
+global.friend_value[0] = 2;
+global.friend_value[1] = 5;
+global.friend_value[2] = 10;
+
 //incrementable array range
 global.friend_range = 3;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (clingy_help = "")
+{
+    clingy_help = "AHHH!!! FIND A NEW FRIEND!!!";
+}
+else
+    clingy_help = "";
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+
+dec_alpha -= .1;
+if (dec_alpha &gt; 0)
+{
+    alarm[3] = .05 * room_speed;
+    dec_y += 2;
+    dec_x += 2;
+}
+else
+{
+    draw_dec = false;
+}
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>inc_alpha -= .1;
+if (inc_alpha &gt; 0)
+{
+    alarm[2] = .1 * room_speed;
+    inc_y += 2;
+    inc_x += 2;
+}
+else
+{
+    draw_inc = false;
+}
+
+
 </string>
           </argument>
         </arguments>
@@ -102,10 +225,11 @@ else
             <kind>1</kind>
             <string>if(!pause)
 {
-self_esteem -= esteem_degrade;
+  decrement = true;
+  decrement_amount = esteem_degrade;
 }
 
-alarm[0] = room_speed * 1;
+alarm[0] = room_speed * 2;
 </string>
           </argument>
         </arguments>
@@ -128,7 +252,11 @@ alarm[0] = room_speed * 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (self_esteem &lt;= 0)
+            <string>dx = Slenderfriend.x;
+dy = Slenderfriend.y;
+
+
+if (self_esteem &lt;= 0)
 {
     global.gameover = true;
     pause = true;
@@ -145,6 +273,38 @@ health_height = (max_self_esteem - self_esteem) * health_increment;
 if (global.gameover &amp;&amp; keyboard_check_pressed(ord("R")))
 {
     game_restart();
+}
+
+if (increment)
+{
+    increment = false;
+    //draw increment animation
+    inc_x = 0;
+    inc_y = 0;
+    draw_inc = true;
+    inc_alpha = 1;
+    alarm[2] = 1;
+    self_esteem += amount;
+    if (self_esteem &gt; max_self_esteem)
+    {
+        self_esteem = max_self_esteem;
+    }
+}
+
+if (decrement)
+{
+    decrement = false;
+    //draw decrement animation
+    dec_x = 0;
+    dec_y = 0;
+    draw_dec = true;
+    dec_alpha = 1;
+    alarm[3] = 1;
+    self_esteem -= decrement_amount;
+    if (self_esteem &lt;=0)
+    {
+        self_esteem = 0;
+    }
 }
 </string>
           </argument>
@@ -172,11 +332,10 @@ if (global.gameover &amp;&amp; keyboard_check_pressed(ord("R")))
 draw_set_color(c_white);
 draw_text(20, 20, "Self Esteem: " + string(self_esteem));
 draw_text(20, 40, "Friends: " + string(friend_count));
-draw_text(20, 60, string(logn(2,difficulty)));
-draw_text(20, 80, string(difficulty));
-draw_text(20, 100, string(room));
-draw_text(20, 120, string(room_persistent));
-
+//draw_text(20, 60, string(logn(2,difficulty)));
+//draw_text(20, 80, string(difficulty));
+//draw_text(20, 100, string(room));
+//draw_text(20, 120, string(room_persistent));
 
 
 draw_sprite(health_bar, 0, 1024 - 50 ,768/2);
@@ -207,6 +366,45 @@ if (blink)
 draw_sprite(health_select, 0, 1024 - 50 - 25, 30 + health_height);
 draw_sprite_ext(health_header,0,1024 - 50, 35, .2, .2,0,-1,1);
 
+
+if (Slenderfriend.ride_along)
+{
+    show_debug_message(string(friction_value));
+    draw_set_color(c_blue);
+    draw_rectangle(37,768-100,37+(430 * (friction_value-1)/2),768-50,false);
+    
+    draw_sprite_ext(wrangle_bar,0,35,768-75,1,1,0,-1,1);
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+    draw_set_font(big_font);
+    draw_text(175, 768-92, "WRANGLE!");
+    draw_set_font(default_font);
+      
+}
+else if (Slenderfriend.clingy_attack)
+{
+    show_debug_message("draw attack help");
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+    draw_set_font(big_font);
+    if(alarm[4] &lt; 0)
+        alarm[4] = .5 * room_speed;
+    draw_text(35, 768-75, clingy_help);
+    draw_set_font(default_font);
+}
+else if (Slenderfriend.show_attack)
+{
+    show_debug_message("draw attack help");
+    draw_set_color(c_white);
+    draw_set_alpha(1);
+    draw_set_font(big_font);
+    draw_text(35, 768-75, "SEND TO FRIEND ZONE");
+    draw_set_font(default_font);
+    draw_sprite_ext(j_key,0,500, 768-60,.5,.5,0,-1,1);
+    draw_sprite_ext(green_arrow,0,498,768-95,.5,.5,0,-1,1);
+}
+
+
 if (global.gameover)
 {
     draw_set_color(c_black);
@@ -221,6 +419,51 @@ if (global.gameover)
     draw_text(1024/2, 768-300, "You ran out of self esteem :(" + "#Slenderman's need for friendship can't be quenched" + "#But you earned a total of " + string(friend_count) + " friends!" + "  Way to go!" + "#" + "#Press R to Restart");
     
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+if (draw_inc)
+{
+    depth = -20000;
+    draw_set_font(default_font);
+    draw_set_alpha(inc_alpha);
+    draw_set_color(make_color_rgb(0,255,0));
+    draw_text(dx + 5 + inc_x, dy - 15 - inc_y, "+" + string(amount));
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+}
+
+if (draw_dec)
+{
+    depth = -15000;
+    draw_set_font(default_font);
+    draw_set_alpha(dec_alpha);
+    draw_set_color(make_color_rgb(255,0,0));
+    draw_text(dx + 5 + dec_x, dy - 45 - dec_y, "-" + string(decrement_amount));
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+}
+
 </string>
           </argument>
         </arguments>
