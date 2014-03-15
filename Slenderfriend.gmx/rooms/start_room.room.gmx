@@ -45,7 +45,7 @@ do
     until (place_free(rx,ry));
     
     friends -= 1;
-    which_friend = 0;//floor(random_range(0,global.friend_range));
+    which_friend = 2;//floor(random_range(0,global.friend_range));
     switch(which_friend)
     {
         case 0:
@@ -103,7 +103,7 @@ room_persistent = true;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="640" hview="480" xport="0" yport="0" wport="640" hport="480" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="Slenderfriend" x="768" y="480" name="inst_96BE41AA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="Slenderfriend" x="992" y="1024" name="inst_96BE41AA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="warp_handler" x="128" y="128" name="inst_59BE34F0" locked="0" code="target_room = next_room;&#xA;visible = false;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>

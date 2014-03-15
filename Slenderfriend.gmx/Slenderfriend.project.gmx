@@ -39,6 +39,13 @@
     <sprite>sprites\wrangle_bar</sprite>
     <sprite>sprites\friendzone_sign</sprite>
     <sprite>sprites\friendzone_out</sprite>
+    <sprite>sprites\clingy_friend_sprite</sprite>
+    <sprite>sprites\clingy_walk</sprite>
+    <sprite>sprites\normal_idle</sprite>
+    <sprite>sprites\normal_walk</sprite>
+    <sprite>sprites\clingy_idle</sprite>
+    <sprite>sprites\mutton_idle</sprite>
+    <sprite>sprites\mutton_walk</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -51,7 +58,6 @@
     <object>objects\object1</object>
     <object>objects\object2</object>
     <object>objects\ScaredGuy</object>
-    <object>objects\ScaredGuy_backup</object>
     <object>objects\Clingy</object>
     <object>objects\Mutton</object>
     <object>objects\Normal</object>
@@ -64,9 +70,9 @@
     <object>objects\friend_zone_sign</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\friendzone</room>
     <room>rooms\start_room</room>
     <room>rooms\next_room</room>
+    <room>rooms\friendzone</room>
     <room>rooms\room3</room>
     <room>rooms\room1</room>
     <room>rooms\room0</room>
