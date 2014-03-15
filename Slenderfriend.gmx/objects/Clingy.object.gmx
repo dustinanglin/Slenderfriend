@@ -323,7 +323,7 @@ if (is_clingy &amp;&amp; !is_betrayed)
 if (is_betrayed)
 {
   persistent = false;
-  move_towards_point(0,y,3);
+  move_towards_point(0,y,1.5);
   
   sprite_index = clingy_walk;
   image_xscale = 1;
@@ -423,6 +423,8 @@ if (is_clingy &amp;&amp; !is_betrayed)
 {
     draw_set_halign(fa_center);
     draw_set_color(c_white);
+    if (room == friendzone)
+        draw_set_color(c_black);
     draw_text(x-16, y-80, clingy_talk[clingy_phrase]);
     draw_set_halign(fa_left);
 }
