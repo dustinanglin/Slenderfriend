@@ -164,6 +164,8 @@ else
             <string>if(!is_mutton_bustin)
 {
 
+if (!Slenderfriend.in_friendzone)
+{
 //get scared
 if(distance_to_object(Slenderfriend) &lt; 30)
 {
@@ -179,10 +181,10 @@ if(distance_to_object(Slenderfriend) &gt; 300  &amp;&amp; !moving)
     chill = false;
 }
 
-if (is_freaked_out)
+if (is_freaked_out &amp;&amp; !Slenderfriend.in_friendzone)
 {
-    draw_set_color(c_black);
-    draw_text(x+10, y+10, "AHHHHHHHH!!!!");
+    //draw_set_color(c_black);
+    //draw_text(x+10, y+10, "AHHHHHHHH!!!!");
     move_towards_point(Slenderfriend.x, Slenderfriend.y,-1 * friend_speed);
      if (Slenderfriend.x &gt; x)
     {
@@ -197,6 +199,7 @@ if (is_freaked_out)
         image_speed = .5;
     }
     moving = false;
+}
 }
 
 if (moving)
@@ -335,8 +338,10 @@ if (mutton_friction &gt;= max_friction)
     score_keeper.friend_count += 1;
     score_keeper.increment = true;
     score_keeper.amount = global.friend_value[1];
+    score_keeper.mutton_count += 1;
     
     instance_destroy();
+    instance_create(x,y,friend_death);
 }
 
 if (keyboard_check_pressed(ord("V")))
@@ -371,10 +376,18 @@ if (friend_speed &gt;= friend_max)
           <argument>
             <kind>1</kind>
             <string>depth = -y;
-if (is_freaked_out)
+if (is_freaked_out &amp;&amp; !is_mutton_bustin)
 {
     draw_set_color(c_white)
+    draw_set_font(default_font);
     draw_text(x-40, y-80, "AHHHHH!!!!");
+}
+
+if (distance_to_object(Slenderfriend) &lt; 100 &amp;&amp; Slenderfriend.in_friendzone)
+{
+    draw_set_color(c_black);
+    draw_set_font(default_font);
+    draw_text(x-40, y-80, "Sup bro!");
 }
 /*else if (chill)
 {

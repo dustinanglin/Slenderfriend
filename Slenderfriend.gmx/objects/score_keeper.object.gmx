@@ -48,6 +48,9 @@ dx = 0;
 dy = 0;
 friction_value = 0;
 
+normal_count = 0;
+mutton_count = 0;
+
 
 decrement = false;
 decrement_amount = 0;
@@ -73,6 +76,10 @@ global.friend_value[2] = 10;
 
 //incrementable array range
 global.friend_range = 3;
+
+death_x = 0;
+death_y = 0;
+draw_death = false;
 </string>
           </argument>
         </arguments>
@@ -255,6 +262,10 @@ alarm[0] = room_speed * 2;
             <string>dx = Slenderfriend.x;
 dy = Slenderfriend.y;
 
+if (room == friendzone)
+{
+    pause = true;
+}
 
 if (self_esteem &lt;= 0)
 {
@@ -328,10 +339,21 @@ if (decrement)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-draw_set_color(c_white);
-draw_text(20, 20, "Self Esteem: " + string(self_esteem));
-draw_text(20, 40, "Friends: " + string(friend_count));
+            <string>if (room == friendzone)
+    draw_set_color(c_black)
+else
+    draw_set_color(c_white);
+
+//draw_text(20, 20, "Self Esteem: " + string(self_esteem));
+draw_set_font(big_font);
+draw_text(20, 15, "Friends: " + string(friend_count));
+
+if (room != friendzone)
+{
+    draw_set_font(default_font);
+    draw_text(60,55,"Return to friendzone");
+    draw_sprite_ext(f_key,0,15, 50,.3,.3,0,-1,1);
+}
 //draw_text(20, 60, string(logn(2,difficulty)));
 //draw_text(20, 80, string(difficulty));
 //draw_text(20, 100, string(room));
@@ -364,12 +386,12 @@ if (blink)
 
 
 draw_sprite(health_select, 0, 1024 - 50 - 25, 30 + health_height);
-draw_sprite_ext(health_header,0,1024 - 50, 35, .2, .2,0,-1,1);
+//draw_sprite_ext(health_header,0,1024 - 50, 35, .2, .2,0,-1,1);
 
 
 if (Slenderfriend.ride_along)
 {
-    show_debug_message(string(friction_value));
+    //show_debug_message(string(friction_value));
     draw_set_color(c_blue);
     draw_rectangle(37,768-100,37+(430 * (friction_value-1)/2),768-50,false);
     
@@ -383,7 +405,7 @@ if (Slenderfriend.ride_along)
 }
 else if (Slenderfriend.clingy_attack)
 {
-    show_debug_message("draw attack help");
+    //show_debug_message("draw attack help");
     draw_set_color(c_white);
     draw_set_alpha(1);
     draw_set_font(big_font);
@@ -392,9 +414,9 @@ else if (Slenderfriend.clingy_attack)
     draw_text(35, 768-75, clingy_help);
     draw_set_font(default_font);
 }
-else if (Slenderfriend.show_attack)
+else if (Slenderfriend.show_attack &amp;&amp; !Slenderfriend.in_friendzone)
 {
-    show_debug_message("draw attack help");
+    //show_debug_message("draw attack help");
     draw_set_color(c_white);
     draw_set_alpha(1);
     draw_set_font(big_font);
@@ -402,6 +424,17 @@ else if (Slenderfriend.show_attack)
     draw_set_font(default_font);
     draw_sprite_ext(j_key,0,500, 768-60,.5,.5,0,-1,1);
     draw_sprite_ext(green_arrow,0,498,768-95,.5,.5,0,-1,1);
+}
+
+if (room == friendzone)
+{
+    //show_debug_message("draw attack help");
+    draw_set_color(c_black);
+    draw_set_alpha(1);
+    draw_set_font(big_font);
+    draw_text(35, 768-75, "FIND SOME MORE FRIENDS");
+    draw_set_font(default_font);
+    draw_sprite_ext(f_key,0,530, 768-90,.5,.5,0,-1,1);
 }
 
 
@@ -464,6 +497,7 @@ if (draw_dec)
     draw_set_alpha(1);
     draw_set_color(c_white);
 }
+
 
 </string>
           </argument>

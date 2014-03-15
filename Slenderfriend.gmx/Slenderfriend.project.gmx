@@ -46,6 +46,10 @@
     <sprite>sprites\clingy_idle</sprite>
     <sprite>sprites\mutton_idle</sprite>
     <sprite>sprites\mutton_walk</sprite>
+    <sprite>sprites\death_sprite</sprite>
+    <sprite>sprites\slenderport</sprite>
+    <sprite>sprites\f_key</sprite>
+    <sprite>sprites\splash_title</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -68,11 +72,14 @@
     <object>objects\tile_drawer</object>
     <object>objects\obj_tree</object>
     <object>objects\friend_zone_sign</object>
+    <object>objects\friend_death</object>
+    <object>objects\game_starter</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\Splash</room>
+    <room>rooms\friendzone</room>
     <room>rooms\start_room</room>
     <room>rooms\next_room</room>
-    <room>rooms\friendzone</room>
     <room>rooms\room3</room>
     <room>rooms\room1</room>
     <room>rooms\room0</room>

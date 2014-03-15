@@ -116,6 +116,8 @@ else
           <argument>
             <kind>1</kind>
             <string>
+if (!Slenderfriend.in_friendzone)
+{
 //get scared
 if(distance_to_object(Slenderfriend) &lt; 30)
 {
@@ -133,8 +135,8 @@ if(distance_to_object(Slenderfriend) &gt; 300  &amp;&amp; !moving)
 
 if (is_freaked_out)
 {
-    draw_set_color(c_black);
-    draw_text(x+10, y+10, "AHHHHHHHH!!!!");
+    //draw_set_color(c_black);
+    //draw_text(x+10, y+10, "AHHHHHHHH!!!!");
     move_towards_point(Slenderfriend.x, Slenderfriend.y,-1 * friend_speed);
     if (Slenderfriend.x &gt; x)
     {
@@ -149,6 +151,8 @@ if (is_freaked_out)
         image_speed = .5;
     }
     moving = false;
+}
+
 }
 
 if (moving)
@@ -222,6 +226,8 @@ if (my_health &lt;= 0)
     score_keeper.friend_count += 1;
     score_keeper.increment = true;
     score_keeper.amount = global.friend_value[0];
+    score_keeper.normal_count += 1;
+    instance_create(x,y,friend_death);
 }
 
 //regenerate health
@@ -276,7 +282,15 @@ if (y &lt;= 0)
 if (is_freaked_out)
 {
     draw_set_color(c_white)
+    draw_set_font(default_font);
     draw_text(x-40, y-80, "AHHHHH!!!!");
+}
+
+if (distance_to_object(Slenderfriend) &lt; 100 &amp;&amp; Slenderfriend.in_friendzone)
+{
+    draw_set_color(c_black);
+    draw_set_font(default_font);
+    draw_text(x-40, y-80, "Sup bro!");
 }
 /*else if (chill)
 {
@@ -299,7 +313,7 @@ draw_rectangle(x-25+(50*my_health/health_max),y-65,x+25,y-60,false);
 }
 
 
-image_alpha = 1 - (2 * (5 - my_health)/10);
+//image_alpha = 1 - (2 * (5 - my_health)/10);
 
 draw_self();
 

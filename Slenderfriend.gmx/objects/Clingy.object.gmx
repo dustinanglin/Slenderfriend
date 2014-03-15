@@ -197,10 +197,10 @@ if(distance_to_object(Slenderfriend) &gt; 300  &amp;&amp; !moving)
     chill = false;
 }
 
-if (is_freaked_out)
+if (is_freaked_out &amp;&amp; !Slenderfriend.in_friendzone)
 {
-    draw_set_color(c_black);
-    draw_text(x+10, y+10, "AHHHHHHHH!!!!");
+    //draw_set_color(c_black);
+    //draw_text(x+10, y+10, "AHHHHHHHH!!!!");
     move_towards_point(Slenderfriend.x, Slenderfriend.y,-1 * friend_speed);
     if (Slenderfriend.x &gt; x)
     {
@@ -399,11 +399,13 @@ if (friend_speed &gt;= friend_max)
             <kind>1</kind>
             <string>depth = -y;
 
-if (is_freaked_out &amp;&amp; !is_clingy &amp;&amp; !is_betrayed)
+if (is_freaked_out &amp;&amp; !is_clingy &amp;&amp; !is_betrayed &amp;&amp; !Slenderfriend.in_friendzone)
 {
-    draw_set_color(c_white)
+    draw_set_color(c_white);
+    draw_set_font(default_font);
     draw_text(x-40, y-80, "AHHHHH!!!!");
 }
+
 /*else if (chill)
 {
     draw_set_color(tile_drawer.sprite_color);
