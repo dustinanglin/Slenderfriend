@@ -18,7 +18,7 @@ randomize();
 r_height = floor(random_range(400,2000));
 r_width = floor(random_range(400,2000));
 
-friends = floor(random_range(10,15));
+friends = floor(random_range(5,15));
 rx = 0;
 ry = 0;
 
@@ -45,19 +45,23 @@ do
     until (place_free(rx,ry));
     
     friends -= 1;
-    which_friend = 0;//floor(random_range(0,global.friend_range));
+    which_friend = floor(random_range(0,global.friend_range));
     switch(which_friend)
     {
         case 0:
         instance_create (rx, ry, Normal);
         break;
         
-        case 1:
+        case 2:
         instance_create (rx, ry, Mutton);
         break;
         
-        case 2:
+        case 1:
         instance_create (rx, ry, Clingy);
+        break;
+        
+        case 3:
+        instance_create (rx, ry, Ninja);
         break;
     }
 }

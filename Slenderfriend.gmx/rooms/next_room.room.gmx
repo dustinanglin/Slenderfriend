@@ -49,12 +49,16 @@ do
         instance_create (rx, ry, Normal);
         break;
         
-        case 1:
+        case 2:
         instance_create (rx, ry, Mutton);
         break;
         
-        case 2:
+        case 1:
         instance_create (rx, ry, Clingy);
+        break;
+        
+        case 3:
+        instance_create (rx, ry, Ninja);
         break;
     }
 }

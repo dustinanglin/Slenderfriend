@@ -66,14 +66,39 @@ betrayed_talk [1] = "That's cool... most of my friends have faces anyways.";
 betrayed_talk [2] = "Good bye forever...";
 
 
-my_type = global.friend_type[2];
+my_type = global.friend_type[1];
 
 friend_max = 4;
 
-friend_speed = 2 + logn(10,score_keeper.difficulty);
+friend_speed = score_keeper.enemy_speed;
 
 image_speed = .01;
 
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>score_keeper.decrement = true;
+score_keeper.decrement_amount = score_keeper.enemy_drain;
 
 </string>
           </argument>
@@ -103,30 +128,6 @@ if (is_betrayed &amp;&amp; betrayed_phrase &lt; 3)
 {
     betrayed_phrase += 1;
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="2">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>score_keeper.decrement = true;
-score_keeper.decrement_amount = .1;
 </string>
           </argument>
         </arguments>
@@ -314,8 +315,8 @@ if (is_clingy &amp;&amp; !is_betrayed)
     
     if (distance_to_object(Slenderfriend) &lt; 30)
     {
-        if(alarm[2] &lt; 0)
-            alarm[2] = .5 * room_speed;
+        if(alarm[4] &lt; 0)
+            alarm[4] = .5 * room_speed;
     }
     
 }
@@ -329,26 +330,14 @@ if (is_betrayed)
   image_xscale = 1;
   image_speed = .2;
   
-  if (x &gt; room_width || x &lt; 0)
+  if (x &lt;= 0)
   {
-    
     instance_destroy();
   }
 }
 
-
-//stay in bounds
-if (x &gt;= room_width - sprite_width)
-    x = room_width - sprite_width;
-
-if (x &lt;= 0)
-    x = 0;
-
-if (y &gt;= room_height - sprite_height)
-    y = room_height - sprite_height;
-
-if (y &lt;= 0)
-    y = 0;
+if (!is_betrayed)
+stay_in_bounds();
     
 
 //regenerate health

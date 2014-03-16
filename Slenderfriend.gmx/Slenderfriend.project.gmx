@@ -42,7 +42,9 @@
     <sprite>sprites\clingy_friend_sprite</sprite>
     <sprite>sprites\clingy_walk</sprite>
     <sprite>sprites\normal_idle</sprite>
+    <sprite>sprites\ninja_idle</sprite>
     <sprite>sprites\normal_walk</sprite>
+    <sprite>sprites\ninja_walk</sprite>
     <sprite>sprites\clingy_idle</sprite>
     <sprite>sprites\mutton_idle</sprite>
     <sprite>sprites\mutton_walk</sprite>
@@ -50,9 +52,14 @@
     <sprite>sprites\slenderport</sprite>
     <sprite>sprites\f_key</sprite>
     <sprite>sprites\splash_title</sprite>
+    <sprite>sprites\new_friend</sprite>
+    <sprite>sprites\difficulty_sprite</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\stay_in_bounds.gml</script>
+  </scripts>
   <fonts name="fonts">
     <font>fonts\default_font</font>
     <font>fonts\big_font</font>
@@ -65,6 +72,7 @@
     <object>objects\Clingy</object>
     <object>objects\Mutton</object>
     <object>objects\Normal</object>
+    <object>objects\Ninja</object>
     <object>objects\Slenderfriend</object>
     <object>objects\Accell</object>
     <object>objects\score_keeper</object>

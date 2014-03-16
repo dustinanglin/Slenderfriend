@@ -33,7 +33,7 @@ at_point = true;
 chill = false;
 draw_capture = false;
 is_punched = false;
-health_max = 5;
+health_max = score_keeper.enemy_health;
 my_health = health_max;
 
 mhspeed = 0;
@@ -57,7 +57,7 @@ my_type = global.friend_type[0];
 
 friend_max = 4;
 
-friend_speed = 2 + logn(10,score_keeper.difficulty);
+friend_speed = score_keeper.enemy_speed;
 
 image_speed = 6;
 
@@ -217,7 +217,7 @@ if (draw_capture &amp;&amp; keyboard_check(ord("R")))
 if (is_punched)
 {
     is_punched = false;
-    my_health -= Slenderfriend.slender_punch / room_speed;
+    my_health -= Slenderfriend.slender_punch;
 }
 
 if (my_health &lt;= 0)
@@ -227,31 +227,23 @@ if (my_health &lt;= 0)
     score_keeper.increment = true;
     score_keeper.amount = global.friend_value[0];
     score_keeper.normal_count += 1;
+    score_keeper.total_friends += 1;
+    score_keeper.friend_increment = true;
     instance_create(x,y,friend_death);
 }
 
 //regenerate health
-if (is_freaked_out &amp;&amp; my_health &lt;= 5)
-    my_health += .5 / room_speed;
-else if (my_health &lt;= 5)
+if (is_freaked_out &amp;&amp; my_health &lt;= health_max)
     my_health += 1 / room_speed;
+else if (my_health &lt;= health_max)
+    my_health += 2 / room_speed;
 
 friend_speed = 2 + logn(10,score_keeper.difficulty);
 if (friend_speed &gt;= friend_max)
     friend_speed = friend_max - .1;
     
-//stay in bounds
-if (x &gt;= room_width - sprite_width)
-    x = room_width - sprite_width;
+stay_in_bounds();
 
-if (x &lt;= 0)
-    x = 0;
-
-if (y &gt;= room_height - sprite_height)
-    y = room_height - sprite_height;
-
-if (y &lt;= 0)
-    y = 0;
     
 
 </string>
