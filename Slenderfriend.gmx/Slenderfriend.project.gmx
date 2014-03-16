@@ -4,7 +4,36 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\friendzone_bossa_nova</sound>
+    <sound>sound\fl_sound</sound>
+    <sound>sound\crickets</sound>
+    <sound>sound\hit</sound>
+    <sound>sound\static</sound>
+    <sound>sound\static_end</sound>
+    <sound>sound\slenderman_theme</sound>
+    <sound>sound\mutton_brake</sound>
+    <sound>sound\yeehaw</sound>
+    <sound>sound\footfall</sound>
+    <sound>sound\scream1</sound>
+    <sound>sound\scream2</sound>
+    <sound>sound\scream3</sound>
+    <sound>sound\scream4</sound>
+    <sound>sound\scream5</sound>
+    <sound>sound\scream6</sound>
+    <sound>sound\scream7</sound>
+    <sound>sound\scream8</sound>
+    <sound>sound\sup1</sound>
+    <sound>sound\sup2</sound>
+    <sound>sound\sup3</sound>
+    <sound>sound\clingy1</sound>
+    <sound>sound\clingy2</sound>
+    <sound>sound\clingy3</sound>
+    <sound>sound\clingy4</sound>
+    <sound>sound\clingy5</sound>
+    <sound>sound\health_down</sound>
+    <sound>sound\smoke_bomb_sound</sound>
+  </sounds>
   <sprites name="sprites">
     <sprite>sprites\Spinnyhand</sprite>
     <sprite>sprites\spinnytarget</sprite>
@@ -54,11 +83,16 @@
     <sprite>sprites\splash_title</sprite>
     <sprite>sprites\new_friend</sprite>
     <sprite>sprites\difficulty_sprite</sprite>
+    <sprite>sprites\full_static</sprite>
+    <sprite>sprites\firsttime</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\stay_in_bounds.gml</script>
+    <script>scripts\play_scream.gml</script>
+    <script>scripts\play_clingy.gml</script>
+    <script>scripts\play_sup.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\default_font</font>
@@ -82,6 +116,8 @@
     <object>objects\friend_zone_sign</object>
     <object>objects\friend_death</object>
     <object>objects\game_starter</object>
+    <object>objects\bkg_sound_mgr</object>
+    <object>objects\screen_static</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\Splash</room>

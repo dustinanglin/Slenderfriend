@@ -62,7 +62,8 @@ friend_speed = score_keeper.enemy_speed;
 image_speed = 6;
 
 
-
+scream_play = false;
+played_sup = false;
 </string>
           </argument>
         </arguments>
@@ -131,12 +132,18 @@ if(distance_to_object(Slenderfriend) &gt; 300  &amp;&amp; !moving)
     moving = true;
     at_point = true;
     chill = false;
+    scream_play = false;
 }
 
 if (is_freaked_out)
 {
     //draw_set_color(c_black);
     //draw_text(x+10, y+10, "AHHHHHHHH!!!!");
+    if (!scream_play)
+    {
+        scream_play = true;
+        play_scream();
+    }
     move_towards_point(Slenderfriend.x, Slenderfriend.y,-1 * friend_speed);
     if (Slenderfriend.x &gt; x)
     {
@@ -206,12 +213,12 @@ else
     draw_capture = false;
 }
 
-if (draw_capture &amp;&amp; keyboard_check(ord("R")))
+/*if (draw_capture &amp;&amp; keyboard_check(ord("R")))
 {
     instance_destroy();
     score_keeper.self_esteem += score_keeper.friend_add;
     score_keeper.friend_count += 1;
-}
+}*/
 
 
 if (is_punched)
@@ -283,6 +290,16 @@ if (distance_to_object(Slenderfriend) &lt; 100 &amp;&amp; Slenderfriend.in_frien
     draw_set_color(c_black);
     draw_set_font(default_font);
     draw_text(x-40, y-80, "Sup bro!");
+    if(!played_sup)
+    {
+        play_sup();
+        played_sup = true;
+    }
+}
+
+if (distance_to_object(Slenderfriend) &gt; 100 &amp;&amp; Slenderfriend.in_friendzone)
+{
+    played_sup = false;
 }
 /*else if (chill)
 {

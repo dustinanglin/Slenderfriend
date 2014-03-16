@@ -32,8 +32,8 @@ enemy_speed_max = 4;
 enemy_health = 10;
 enemy_health_max = 20;
 
-enemy_friction = 3;
-enemy_friction_max = 5;
+enemy_friction = 5;
+enemy_friction_max = 7;
 
 enemy_timer = 16;
 enemy_timer_min = 11;
@@ -41,6 +41,7 @@ enemy_timer_min = 11;
 enemy_drain = .1;
 enemy_drain_max = 1;
 
+frame = 0;
 
 level = 0;
 total_friends = 0;
@@ -112,6 +113,10 @@ death_x = 0;
 death_y = 0;
 draw_death = false;
 
+played_static = false;
+
+/*instance_create(512,284,screen_static);
+screen_static.visible = false;*/
 </string>
           </argument>
         </arguments>
@@ -136,7 +141,7 @@ draw_death = false;
             <kind>1</kind>
             <string>if (sign_post_alpha &gt; 0)
 {
-    sign_post_alpha -= .1;
+    sign_post_alpha -= .05;
     alarm[5] = .1 * room_speed;
 }
 else
@@ -380,6 +385,7 @@ if (decrement)
     {
         self_esteem = 0;
     }
+    audio_play_sound(health_down,15,false);
 }
 
 
@@ -516,12 +522,15 @@ else if (self_esteem/max_self_esteem &gt; .29)
 {
     //draw ok health
     draw_sprite(ok_health,0,1024-50, 768 - 363);
+    screen_static.visible = false;
 }
 else if (alarm[1] &lt;= 0) 
 {
     //blink bad health
     alarm[1] = .5 * room_speed;      
 }
+
+
 
 if (blink)
 {
@@ -530,8 +539,10 @@ if (blink)
 
 
 
+
 draw_sprite(health_select, 0, 1024 - 50 - 25, 30 + health_height);
 //draw_sprite_ext(health_header,0,1024 - 50, 35, .2, .2,0,-1,1);
+
 
 
 if (Slenderfriend.ride_along)
@@ -595,8 +606,39 @@ if (sign_post_alpha &gt; 0)
     }
 }
 
+if (self_esteem/max_self_esteem &lt;= .10 &amp;&amp; !global.gameover)
+{
+    draw_sprite_ext(full_static,frame,512,384,1,1,0,-1, .5 - ((self_esteem/max_self_esteem)/.10)/2);
+    frame += 1;
+    if (frame == 8)
+        frame = 0;
+        
+    if (!played_static &amp;&amp; (.5 - ((self_esteem/max_self_esteem)/.10)/2) &gt; 0)
+    {
+        played_static = true;
+        static_sound = audio_play_sound(static_end,6,true);
+    }
+    
+    if ((.5 - ((self_esteem/max_self_esteem)/.10)/2) &lt;= 0)
+    {
+        audio_stop_sound(static_end);
+        played_static = false;
+    }
+
+    if ((.5 - ((self_esteem/max_self_esteem)/.10)/2)&gt; 0)
+    {
+        audio_sound_gain(static_sound,.5 - ((self_esteem/max_self_esteem)/.10)/2,0);
+    }
+}
+
 if (global.gameover)
 {
+    draw_sprite_ext(full_static,frame,512,384,1,1,0,-1, 1);
+    frame += 1;
+    if (frame == 8)
+        frame = 0;
+    
+    
     draw_set_color(c_black);
     draw_set_alpha(.6);
     draw_rectangle(0,0,1024,768,false);
@@ -606,7 +648,7 @@ if (global.gameover)
     draw_set_color(c_white);
     draw_set_font(default_font);
     draw_set_halign(fa_center);
-    draw_text(1024/2, 768-300, "You ran out of self esteem :(" + "#Slenderman's need for friendship can't be quenched" + "#But you earned a total of " + string(friend_count) + " friends!" + "  Way to go!" + "#" + "#Press R to Restart");
+    draw_text(1024/2, 768-300, "You ran out of self esteem :(" + "#Slenderman's need for friendship can't be quenched" + "#But you earned a total of " + string(total_friends) + " friends!" + "  Way to go!" + "#" + "#Press R to Restart");
     
 }
 </string>

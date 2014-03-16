@@ -27,6 +27,8 @@
             <kind>1</kind>
             <string>depth = -5000;
 alarm[0] = 2 * room_speed;
+light_sound = audio_play_sound(fl_sound,90,false);
+audio_sound_gain(light_sound,.1,0);
 </string>
           </argument>
         </arguments>
@@ -54,7 +56,11 @@ alarm[0] = 2 * room_speed;
     sprite_index = friendzone_out;
 }
 else
+{
     sprite_index = friendzone_sign;
+    light_sound = audio_play_sound(fl_sound,90,false);
+    audio_sound_gain(light_sound,1,0);
+}
     
 alarm[0] = 2 * room_speed;
 </string>

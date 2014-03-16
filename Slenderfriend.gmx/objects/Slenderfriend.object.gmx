@@ -55,6 +55,39 @@ should_reset = false;
 delta = 0;
 
 friction_value = 0;
+
+play_brake = false;
+started_brake = false;
+stopped_brake = true;
+play_yeehaw = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (started_moving)
+{
+    footfall_sound = audio_play_sound(footfall, 12, false);
+    audio_sound_pitch(footfall, random_range(1.5, 1.6));
+}
+
 </string>
           </argument>
         </arguments>
@@ -86,18 +119,22 @@ else
     if (room != friendzone)
     {
         room_goto(friendzone);
+        bkg_sound_mgr.started = false;
         score_keeper.pause = true;
         Slenderfriend.x = 512;
         Slenderfriend.y = 400;
         in_friendzone = true;
+        audio_stop_sound(static);
     }
     else
     {
         room_goto(Slenderfriend.current_room);
+        bkg_sound_mgr.started = false;
         score_keeper.pause = false;
         Slenderfriend.x = prev_x;
         Slenderfriend.y = prev_y;
         in_friendzone = false;
+        audio_stop_sound(static);
     }
         
     draw_teleport = false;
@@ -193,7 +230,7 @@ else
             <kind>1</kind>
             <string>image_yscale = 1;
 
-if (!global.gameover)
+if (!global.gameover &amp;&amp; !global.first_time_ever)
 {
 
 if (!draw_teleport)
@@ -388,6 +425,11 @@ else
 }
 
 
+if (started_moving &amp;&amp; image_index &gt;= 11)
+{
+    if (alarm[3] &lt; 0)
+        alarm[3] = room_speed * .2;
+}
 
 if (!ride_along)
 {
@@ -428,6 +470,9 @@ if (show_attack &amp;&amp; keyboard_check_pressed(ord("J")) &amp;&amp; !in_frien
 {
     near_friend.is_punched = true;
     
+    hit_audio = audio_play_sound(hit, 1, false);
+    audio_sound_pitch(hit_audio, random_range(.7,1.2));
+    
     if (clingy_attack)
     {
         if(clingy_friend != near_friend)
@@ -449,6 +494,11 @@ if (show_attack &amp;&amp; keyboard_check_pressed(ord("M")))
 
 if (ride_along == true)
 {
+    if (!play_yeehaw)
+    {
+        audio_play_sound(yeehaw,10,false);
+        play_yeehaw = true;
+    }
     switch(near_friend.dir)
     {
         case "up":
@@ -457,7 +507,14 @@ if (ride_along == true)
         image_yscale = 1;
         sprite_index = slender_drag_v;
         if (keyboard_check(ord("S")))
+        {
             near_friend.mutton_friction += slender_punch/room_speed;
+            play_brake = true;
+        }
+        else
+        {
+            play_brake = false;
+        }
         break;
         
         case "down":
@@ -466,7 +523,14 @@ if (ride_along == true)
         image_yscale = -1;
         sprite_index = slender_drag_v;
         if (keyboard_check(ord("W")))
+        {
             near_friend.mutton_friction += slender_punch/room_speed;
+            play_brake = true;
+        }
+        else
+        {
+            play_brake = false;
+        }
         break;
         
         case "left":
@@ -475,7 +539,14 @@ if (ride_along == true)
         image_xscale = 1;
         sprite_index = slender_drag;
         if (keyboard_check(ord("D")))
+        {
             near_friend.mutton_friction += slender_punch/room_speed;
+            play_brake = true;
+        }
+        else
+        {
+            play_brake = false;
+        }
         break;
         
         case "right":
@@ -484,9 +555,39 @@ if (ride_along == true)
         sprite_index = slender_drag;
         image_xscale = -1;
         if (keyboard_check(ord("A")))
+        {
             near_friend.mutton_friction += 1/room_speed;
+            play_brake = true;
+        }
+        else
+        {
+            play_brake = false;
+        }
         break;
     }
+    
+    if (play_brake &amp;&amp; !started_brake)
+    {
+        started_brake = true;
+        audio_play_sound(mutton_brake, 11, true);
+        stopped_brake = false;
+    }
+    else if (!play_brake &amp;&amp; !stopped_brake)
+    {
+        stopped_braked = true;
+        audio_stop_sound(mutton_brake);
+        started_brake = false;
+    }
+}
+else
+{
+   if (play_brake)
+   {
+        play_brake = false;
+        audio_stop_sound(mutton_brake);
+   }
+   
+   play_yeehaw = false;
 }
 
 if (should_reset)
@@ -503,7 +604,7 @@ if(keyboard_check_pressed(ord("U")))
     delta += 1;
 }
 
-if(keyboard_check_pressed(ord("F")))
+if(keyboard_check_pressed(ord("F")) &amp;&amp; score_keeper.self_esteem &gt;= 10)
 {
     if (room != friendzone)
     {
@@ -513,6 +614,7 @@ if(keyboard_check_pressed(ord("F")))
     }
         
     draw_teleport = true;   
+    static_sound = audio_play_sound(static,5,true);
 }
 }
 else if (draw_teleport)

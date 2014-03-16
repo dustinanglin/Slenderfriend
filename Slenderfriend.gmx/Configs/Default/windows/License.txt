@@ -1,3 +1,11 @@
+Special thx to:
+ - Scott Stoked @freesound.org for the awesome yeehaw
+ - Lonemonk @freesound.org for neon light sound
+ - Friendzone theme music from http://www.bensound.com
+ - Dravenx from OpenGameArt.org for the wonderful for the tree pixel art
+ - Johan Brodd from OpenGameArt.org for the retro sound effects package (which proved invaluable!)
+ - Tom Haigh from OpenGameArt.rog for the tire squeel
+
 This Application was made using GameMaker. GameMaker is the intellectual property of YoYo Games Ltd, a company of the United Kingdom.
 
 THIS END USER LICENSE AGREEMENT APPLIES TO ALL USE OF THIS APPLICATION.
