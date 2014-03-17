@@ -604,7 +604,7 @@ if(keyboard_check_pressed(ord("U")))
     delta += 1;
 }
 
-if(keyboard_check_pressed(ord("F")) &amp;&amp; score_keeper.self_esteem &gt;= 10)
+if(keyboard_check_pressed(ord("F")) &amp;&amp; score_keeper.self_esteem &gt;= 10 &amp;&amp; !ride_along)
 {
     if (room != friendzone)
     {

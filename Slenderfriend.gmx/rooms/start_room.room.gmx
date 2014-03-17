@@ -45,7 +45,7 @@ do
     until (place_free(rx,ry));
     
     friends -= 1;
-    which_friend = floor(random_range(0,global.friend_range));
+    which_friend = 3; //floor(random_range(0,global.friend_range));
     switch(which_friend)
     {
         case 0:
